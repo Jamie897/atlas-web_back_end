@@ -67,3 +67,4 @@ def forbidden() -> str:
     """ GET /api/v1/forbidden
     """
     abort(403)
+    
