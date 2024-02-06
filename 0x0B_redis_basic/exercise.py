@@ -13,12 +13,4 @@ class Cache:
         key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
-
-# Main code
-if __name__ == "__main__":
-    print("2 things have been annotated.")
-    for param, annotation in Cache.store.__annotations__.items():
-        print(f"Parameter {param} is annotated as {annotation}.")
-
-
-
+    
