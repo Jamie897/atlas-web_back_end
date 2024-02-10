@@ -1,0 +1,2 @@
+//Counting
+db.school.count()
