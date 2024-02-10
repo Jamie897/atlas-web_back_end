@@ -1,0 +1,2 @@
+// Show All list_databases
+db.school.find()
