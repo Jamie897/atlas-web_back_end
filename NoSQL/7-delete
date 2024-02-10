@@ -1,2 +1,2 @@
-//delete
-db.school.deleteMany.({name : "Holberton School"})
+// 7-delete
+db.school.deleteMany({name: "Holberton school"})
