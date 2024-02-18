@@ -1,33 +1,16 @@
-const assert = require('assert');
-const axios = require('axios');
-const app = require('./4-http');
+const http = require('http');
 
-describe('HTTP Server', () => {
-    // Start the HTTP server before running the tests
-    before(() => {
-        app.listen(1245);
-    });
+const hostname = '127.0.0.1';
+const port = 1245;
 
-    // Stop the HTTP server after running the tests
-    after(() => {
-        app.close();
-    });
-
-    it('responds with correct content and status code for root endpoint', async () => {
-        try {
-            // Make a GET request to the root endpoint
-            const response = await axios.get('http://localhost:1245');
-            
-            // Assert the status code is 200 (OK)
-            assert.strictEqual(response.status, 200);
-
-            // Assert the response body contains the correct content
-            assert.strictEqual(response.data, 'Hello Holberton School!\n');
-        } catch (error) {
-            // If an error occurs, fail the test and log the error
-            assert.fail(error.message);
-        }
-    });
+const app = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello Holberton School!');
 });
 
+app.listen(port, hostname, () => {
+  //   console.log(`Server running at http://${hostname}:${port}/`);
+});
 
+module.exports = app;
