@@ -1,39 +1,60 @@
-// Create another function for counting students
-
-
 const fs = require('fs').promises;
 
-async function countStudents(path) {
+async function countStudents(filePath) {
   try {
-    const data = await fs.readFile(path, 'utf8');
+    // Read the file asynchronously
+    const data = await fs.readFile(filePath, 'utf8');
+
+    // Split the CSV data into lines
     const lines = data.split('\n');
-    const header = lines.slice(1);
 
-    let totalStudents = 0;
-    const studentsByField = {};
+    // Initialize an object to store the count for each field
+    const fieldCounts = {};
 
-    for (const student of header) {
-      const fields = student.split(',');
-      if (fields.length === 4) {
-        const field = fields[3];
-        totalStudents += 1;
-        if (!studentsByField[field]) {
-          studentsByField[field] = [];
-        }
-        studentsByField[field].push(fields[0]);
+    // Iterate through each line
+    lines.forEach((line) => {
+      // Skip empty lines
+      if (line.trim() !== '') {
+        // Split the line into fields
+        const fields = line.split(',');
+
+        // Extract the field name (assuming it's the first element in each line)
+        const fieldName = fields[0];
+
+        // Increment the count for the field in the fieldCounts object
+        fieldCounts[fieldName] = (fieldCounts[fieldName] || 0) + 1;
       }
-    }
-    console.log(`Number of students: ${totalStudents}`);
-    console.log(studentsByField);
+    });
 
-    return {
-      totalStudents,
-      studentsByField,
-    };
+    // Log the results
+    console.log('Number of students:', lines.length - 1); // Subtract 1 to exclude the header
+    Object.keys(fieldCounts).forEach((field) => {
+      const count = fieldCounts[field];
+      const list = lines
+        .filter((line) => line.startsWith(field))
+        .map((line) => line.split(',')[1])
+        .join(', ');
+
+      console.log(`Number of students in ${field}: ${count}. List: ${list}`);
+    });
+
+    // Return a resolved Promise
+    return Promise.resolve();
   } catch (error) {
-    console.error(error);
-    throw new Error('Cannot load the database');
+    // Log and throw an error if reading the file fails
+    console.error('Cannot load the database:', error.message);
+    throw error;
   }
 }
 
+// Example usage
+countStudents('database.csv')
+  .then(() => {
+    console.log('Done!');
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+console.log('After!');
 module.exports = countStudents;
