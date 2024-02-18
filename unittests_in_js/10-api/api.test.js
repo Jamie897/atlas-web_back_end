@@ -1,8 +1,8 @@
-// Test 
+// Test
 const request = require('request');
 const { expect } = require('chai');
 
-// Add a test suite for the / endpoint
+
 describe('Index page', function () {
     it('should return the correct status code and result', function (done) {
         request('http://localhost:3000', function (error, response, body) {
@@ -14,7 +14,7 @@ describe('Index page', function () {
     });
 });
 
-// Add a test suite for the /cart/:id endpoint
+
 describe('Cart page', function () {
     it('should return the correct status code and result', function (done) {
         request('http://localhost:3000/cart/12', function (error, response, body) {
@@ -32,7 +32,7 @@ describe('Cart page', function () {
         });
     });
 
-    // Add a test suite for the /login endpoint
+    
 describe('Users page', function () {
     it('should return the correct status code and result', function (done) {
         request.post({
